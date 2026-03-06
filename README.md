@@ -96,7 +96,18 @@ python main.py
 
 - **Separation of Concerns:** Modular code residing in the src/ directory for high maintainability.
 
-## Further Additions
-- **CI/CD:** Implementation of GitHub Actions for linting and automated testing.
 
-- **Testing:** Adding unit tests for coordinate mapping validation.
+## Further Additions (Roadmap)
+
+Due to the project timeline, the following production-grade features are planned as next steps:
+
+### CI/CD Pipeline
+* **GitHub Actions:** Implementation of automated workflows to run `flake8` for linting and `pytest` for validation on every push.
+* **Automated Deployment:** Setting up triggers to deploy the `main.py` orchestrator to a GCP Cloud Function or Cloud Run environment.
+
+### Enhanced Testing
+* **Unit Testing:** Adding a `pytest` suite to specifically validate the `transform_features` logic, ensuring coordinate mapping (Latitude/Longitude) and `ChapterID` string-casting remain robust against source API schema changes.
+* **Data Quality Checks:** Implementing row-count validation between the ArcGIS source and BigQuery destination.
+
+### Monitoring & Observability
+* **GCP Cloud Logging:** Enhancing the current logger to integrate with Google Cloud Operations suite for real-time error alerting and pipeline health monitoring.
