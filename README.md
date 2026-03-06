@@ -16,8 +16,6 @@ Load: Uses an idempotent WRITE_TRUNCATE strategy to load data into BigQuery.
 
 API Base URL: DU University Chapters ArcGIS REST API
 
-## [Data Pipeline Architecture]
-
 ### Business Understanding
 
 Organization: Ducks Unlimited (DU) is a world leader in wetlands and waterfowl conservation.
