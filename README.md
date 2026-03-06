@@ -3,7 +3,9 @@
 The project implements a production-grade data pipeline that extracts university chapter data from the ArcGIS REST API, transforms the geospatial features into a structured format, and loads them into a Google BigQuery data warehouse.
 
 ## Data Pipeline Architecture
+
 ![Data Pipeline Architecture](./image/Data_Architecture.png)
+
 The pipeline follows a modular Extraction-Transformation-Load (ETL) pattern to ensure a clean separation of concerns:
 
 Extract: Queries the Ducks Unlimited ArcGIS FeatureServer.
@@ -15,8 +17,6 @@ Load: Uses an idempotent WRITE_TRUNCATE strategy to load data into BigQuery.
 [**Data Source**](https://services2.arcgis.com/5I7u4SJE1vUr79JC/arcgis/rest/services/UniversityChapters_Public/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=json)
 
 API Base URL: DU University Chapters ArcGIS REST API
-
-## [Data Pipeline Architecture]
 
 ### Business Understanding
 
