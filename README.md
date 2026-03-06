@@ -1,43 +1,101 @@
-    Ducks Unlimited University Chapters ETL Pipeline
+## Ducks Unlimited University Chapters ETL Pipeline
 
-A professional Python-based ETL pipeline designed to synchronize university chapter data from the ArcGIS REST API to Google BigQuery. This project demonstrates production-grade code structure, observability, and idempotency.
+The project implements a production-grade data pipeline that extracts university chapter data from the ArcGIS REST API, transforms the geospatial features into a structured format, and loads them into a Google BigQuery data warehouse.
 
-    Architecture & Flow
+## Data Pipeline Architecture
 The pipeline follows a modular Extraction-Transformation-Load (ETL) pattern to ensure a clean separation of concerns:
 
-1.   Extract: Queries the ArcGIS REST API with robust timeout and error handling.
-2.   Transform: Flattens nested JSON features, enforces schema types (casting IDs to strings), and extracts coordinate geometry.
-3.   Load: Uses an idempotent `WRITE_TRUNCATE` strategy to load data into BigQuery, ensuring no duplicate records.
+Extract: Queries the Ducks Unlimited ArcGIS FeatureServer.
 
+Transform: Flattens nested JSON, maps coordinates (Longitude/Latitude), and enforces schema types.
 
+Load: Uses an idempotent WRITE_TRUNCATE strategy to load data into BigQuery.
 
- Key Deliverables Met
+[**Data Source**](https://services2.arcgis.com/5I7u4SJE1vUr79JC/arcgis/rest/services/UniversityChapters_Public/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=json)
 
- 1. Quality & Readability
-    Type Hinting: All functions utilize Python's `typing` module for clarity and IDE support.
-    Docstrings: Follows Google-style documentation to explain function intent, parameters, and return types.
+API Base URL: DU University Chapters ArcGIS REST API
 
- 2. Appropriate Tooling & Structure
-    Logging: Implements a persistent file-based logger (`etl_pipeline.log`) for operational monitoring.
-    Folder Structure: Organized for local execution with a clear entry point in `du_main.py`.
+## [Data Pipeline Architecture]
 
- 3. Error Handling & Validation
-    Handles network-level exceptions (Request timeouts/HTTP errors).
-    Validates API responses before attempting transformation.
-    Explicit BigQuery schema definition prevents "data drift" or auto-detection errors.
+### Business Understanding
 
-  4. Reproducibility & Setup
-     The pipeline is designed to be set up and run locally by a reviewer in under 2 minutes.
+Organization: Ducks Unlimited (DU) is a world leader in wetlands and waterfowl conservation.
 
+### Business Challenge
+- **Data Silos:** Valuable university chapter location data is locked in external ArcGIS feature servers, making it difficult for the broader organization to access for cross-platform reporting.
 
- Setup & Usage Instructions
+- **Manual Reporting:** Lack of automation leads to delayed insights regarding regional chapter growth and student engagement.
 
- Prerequisites
-   Python 3.9+
-   A Google Cloud Service Account key (`gcp-key.json`) with BigQuery Data Editor permissions.
+- **Reproducibility:** The organization requires a standardized, well-structured codebase that can be audited and run reliably by any member of the data engineering team.
 
- Local Installation
-  1. Clone and Navigate:
-   bash
-   git clone [https://github.com/enuwa/du-university-chapters-etl.git](https://github.com/enuwa/du-university-chapters-etl.git)
-   cd du-university-chapters-etl
+### Project Objectives
+- **Develop a Scalable ETL Pipeline:** Implement a modular Python system to automate data synchronization from ArcGIS to the cloud.
+
+- **Enhance Data Quality:** Implement logging and error handling to ensure data integrity and observability during the transformation phase.
+
+- **Cloud Integration:** Centralize data in Google BigQuery to enable advanced spatial analytics and Power BI reporting.
+
+### Project Deliverable
+The goal is to provide Places for People with a reliable "Single Source of Truth" for University Chapter data, ensuring stakeholders can make data-driven decisions based on accurate, real-time location metrics.
+
+## Project Stack
+- **API:** ArcGIS REST API (JSON source).
+
+- **Language:** Python 3.9+ (Modular structure).
+
+- **Warehouse:** Google BigQuery (Cloud destination).
+
+- **Observability:** Structured Logging and Error Handling.
+
+## Project Setup
+### Clone The Repository
+```Bash
+# Clone the repository
+git clone https://github.com/enuwa/du-university-chapters-etl-main.git
+
+# Navigate to project directory
+cd du-university-chapters-etl-main
+```
+### Setup Environment Variables & Security
+
+# Create a service account key in Google Cloud Console with BigQuery Data Editor permissions.
+
+# Save the file as gcp-key.json in the project root.
+
+# Note: This file is ignored by Git for security via .gitignore to prevent unauthorized cloud spend.
+
+### Create And Activate The Virtual Environment
+```PowerShell
+
+ python -m venv .venv
+
+# Windows
+.venv\Scripts\activate
+# Mac/Linux
+source .venv/bin/activate
+```
+
+### Install Project Dependencies
+```Bash
+
+pip install -r requirements.txt
+```
+
+## Run The ETL Pipeline
+```Bash
+python main.py
+```
+
+### Quality & Reliability Features
+- **Error Handling:** Robust try-except blocks for network timeouts and BigQuery load failures.
+
+- **Logging:** All runs generate a persistent etl_pipeline.log for operational auditing.
+
+- **Idempotency:** The loader replaces the table each run to prevent duplicate records.
+
+- **Separation of Concerns:** Modular code residing in the src/ directory for high maintainability.
+
+## Further Additions
+- **CI/CD:** Implementation of GitHub Actions for linting and automated testing.
+
+- **Testing:** Adding unit tests for coordinate mapping validation.
